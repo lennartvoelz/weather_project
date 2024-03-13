@@ -8,4 +8,4 @@ import os
 #machine learning imports
 import sklearn as sk
 from sklearn.model_selection import train_test_split
-import tensorflow.keras as tf
+import tensorflow as tf

@@ -87,7 +87,7 @@ def categorical_to_numerical(y_train, y_test):
 
 
 
-def inverse_encoder(y_test, y_pred):
+def inverse_encoder(y_test, y_pred, encoder):
     """
     function converts the numerical labels back to categorical labels
     
@@ -99,7 +99,6 @@ def inverse_encoder(y_test, y_pred):
         y_test: the categorical testing labels
         y_pred: the categorical predicted labels
     """
-    encoder = sk.preprocessing.LabelEncoder()
     y_test = encoder.inverse_transform(y_test)
     y_pred = encoder.inverse_transform(y_pred)
     
