@@ -1,4 +1,4 @@
-from imports import np, pd, sk, os
+from imports import np, pd, sk, os, train_test_split
 
 path = os.path.join("../data","seattle-weather.csv")
 
@@ -38,7 +38,7 @@ def split_data(data, split_ratio = 0.7):
     """
     X = data[:,:-1]
     y = data[:, -1]
-    X_train, X_test, y_train, y_test = sk.model_selection.train_test_split(X, y, test_size = 1 - split_ratio)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1 - split_ratio)
 
     return X_train, y_train, X_test, y_test
 
@@ -66,7 +66,7 @@ def normalize_data(X_train, X_test):
 
 
 
-def categorical_to_numerical(y_train, y_test):
+def encoder(y_train, y_test):
     """
     function converts the categorical labels to numerical labels
     
@@ -77,12 +77,13 @@ def categorical_to_numerical(y_train, y_test):
     Returns:
         y_train: the numerical training labels
         y_test: the numerical testing labels
+        encoder: the label encoder used to convert the labels
     """
     encoder = sk.preprocessing.LabelEncoder()
     y_train = encoder.fit_transform(y_train)
     y_test = encoder.transform(y_test)
     
-    return y_train, y_test
+    return y_train, y_test, encoder
 
 
 
@@ -103,3 +104,26 @@ def inverse_encoder(y_test, y_pred, encoder):
     y_pred = encoder.inverse_transform(y_pred)
     
     return y_test, y_pred
+
+
+
+
+def create_more_data(X_train, y_train):
+    """
+    function creates more data by adding noise to the original data
+    
+    Args:
+        data: the original data
+    
+    Returns:
+        data: the original data with added noise
+    """
+    noise = np.random.normal(0, 0.1, X_train.shape)
+    X_train = np.concatenate([X_train, X_train + noise])
+    y_train = np.concatenate([y_train, y_train])
+    indices = np.arange(X_train.shape[0])
+    np.random.shuffle(indices)
+    X_train = X_train[indices]
+    y_train = y_train[indices]
+
+    return X_train, y_train

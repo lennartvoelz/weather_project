@@ -7,5 +7,6 @@ import os
 
 #machine learning imports
 import sklearn as sk
-from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from sklearn.model_selection import train_test_split
+from tensorflow.keras.utils import to_categorical
